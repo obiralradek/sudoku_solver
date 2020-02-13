@@ -1,18 +1,12 @@
+use std::io;
+
+
 fn main() {
-    let mut game :[[u8; 9]; 9] = [
-        [5,3,0,  0,7,0,  0,0,0],
-        [6,0,0,  1,9,5,  0,0,0],
-        [0,9,8,  0,0,0,  0,6,0],
-
-        [8,0,0,  0,6,0,  0,0,3],
-        [4,0,0,  8,0,3,  0,0,1],
-        [7,0,0,  0,2,0,  0,0,6],
-
-        [0,6,0,  0,0,0,  2,8,0],
-        [0,0,0,  4,1,9,  0,0,5],
-        [0,0,0,  0,8,0,  0,7,9]
-    ];
+    let mut game: [[u8; 9]; 9] = get_grid();
+    print!("\n\n"); // Delete if you dont want space between input and output
     solve_game(&mut game);
+    let mut wait = String::new();  // Delete if you dont want to wait for user input before closing program
+    io::stdin().read_line(&mut wait); //
 }
 
 
@@ -47,7 +41,6 @@ fn solve_game(game: &mut [[u8; 9]; 9]) -> bool{
                 for n in 1..10{
                     if check_placement(&game, (y,x), n){
                         game[y][x] = n;
-                        //println!("{:#?}", &game);
                         solve_game(game);
                         game[y][x] = 0;
                     }
@@ -63,6 +56,7 @@ fn solve_game(game: &mut [[u8; 9]; 9]) -> bool{
 
 fn pretty_print_grid(grid: &[[u8; 9]; 9]){
     for (j, line) in grid.iter().enumerate(){
+        print!(" ");
         for (i, number) in line.iter().enumerate(){
             print!("{}", number);
             if (i + 1) % 3 == 0{
@@ -74,4 +68,21 @@ fn pretty_print_grid(grid: &[[u8; 9]; 9]){
             println!("");
         }
     }
+}
+
+
+fn get_grid() -> [[u8;9];9]{
+    let mut result: [[u8;9];9] = [[0;9];9];
+    for i in 0..9{
+        let mut numbers = String::new();
+        io::stdin().read_line(&mut numbers).ok().expect("read error");
+        let mut numbers: Vec<u8> = numbers
+            .split_whitespace()
+            .map(|s| s.parse().unwrap())
+            .collect();
+        let mut temp: [u8; 9] = [0;9];
+        temp.copy_from_slice(&mut numbers[..9]);
+        result[i] = temp;    
+    }
+    return result;
 }
