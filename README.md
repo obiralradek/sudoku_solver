@@ -1,7 +1,8 @@
 # sudoku_solver
-Rust application for solving sudokus.
+Rust terminal application for solving sudokus.
 
-Enter numbers separated with spaces.
+Enter numbers separated with spaces. 
+Split rows by new lines.
 If the number is unknown enter 0.
 
 Example input:
